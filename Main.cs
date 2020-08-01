@@ -205,15 +205,23 @@ namespace PS4Saves
             var ex = m.FindEntry("executable");
             
             //SHELLCORE PATCHES
-            ps4.WriteMemory(s.pid, ex.start + 0xD42843, (byte)0x00); // 'sce_sdmemory' patch
-            ps4.WriteMemory(s.pid, ex.start + 0x7E4DC0, new byte[]{0x48, 0x31, 0xC0, 0xC3}); //verify keystone patch
-            ps4.WriteMemory(s.pid, ex.start + 0x68BA0, new byte[] {0x31, 0xC0, 0xC3}); //transfer mount permission patch eg mount foreign saves with write permission
-            ps4.WriteMemory(s.pid, ex.start + 0xC54F0, new byte[] { 0x31, 0xC0, 0xC3 });//patch psn check to load saves saves foreign to current account
-            ps4.WriteMemory(s.pid, ex.start + 0x6A349, new byte[] { 0x90, 0x90 }); // ^
-            ps4.WriteMemory(s.pid, ex.start + 0x686AE, new byte[] {0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // something something patches... 
-            ps4.WriteMemory(s.pid, ex.start + 0x67FCA, new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 }); // don't even remember doing this
-            ps4.WriteMemory(s.pid, ex.start + 0x67798, new byte[] { 0x90, 0x90}); //nevah jump
-            ps4.WriteMemory(s.pid, ex.start + 0x679D5, new byte[] { 0x90, 0xE9 }); //always jump
+            ps4.WriteMemory(s.pid, ex.start + 0x0F160AE, (byte)0x00); // 'sce_sdmemory' patch
+            ps4.WriteMemory(s.pid, ex.start + 0x87F840, new byte[]{0x48, 0x31, 0xC0, 0xC3}); //verify keystone patch
+            
+            ps4.WriteMemory(s.pid, ex.start + 0x71130, new byte[] {0x31, 0xC0, 0xC3}); //transfer mount permission patch eg mount foreign saves with write permission
+            
+            ps4.WriteMemory(s.pid, ex.start + 0xD6830, new byte[] { 0x31, 0xC0, 0xC3 });//patch psn check to load saves saves foreign to current account
+            
+            ps4.WriteMemory(s.pid, ex.start + 0x07379E , new byte[] { 0x90, 0x90 }); // ^
+            
+            ps4.WriteMemory(s.pid, ex.start + 0x070C38 , new byte[] {0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // something something patches... 
+            ps4.WriteMemory(s.pid, ex.start + 0x07DDDA , new byte[] { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 }); // don't even remember doing this come back
+            
+            ps4.WriteMemory(s.pid, ex.start + 0x070054, new byte[] { 0x90, 0x90}); //nevah jump
+            
+            ps4.WriteMemory(s.pid, ex.start + 0x070260 , new byte[] { 0x90, 0xE9 }); //always jump
+            
+            
             //WRITE CUSTOM FUNCTIONS
             GetSaveDirectoriesAddr = ps4.AllocateMemory(pid, 0x8000);
             ps4.WriteMemory(pid, GetSaveDirectoriesAddr, functions.GetSaveDirectories);
